@@ -45,7 +45,7 @@ namespace PKISharp.WACS.Plugins.ValidationPlugins.Http
             }
         }
 
-        public async Task RecieveRequests()
+        public virtual async Task RecieveRequests()
         {
             while (_listener.IsListening)
             {

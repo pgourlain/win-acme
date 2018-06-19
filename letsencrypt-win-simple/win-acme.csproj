@@ -359,6 +359,7 @@
     <Compile Include="Plugins\TargetPlugins\Manual.cs" />
     <Compile Include="Plugins\ValidationPlugins\BaseHttpValidation.cs" />
     <Compile Include="Plugins\ValidationPlugins\BaseValidation.cs" />
+    <Compile Include="Plugins\ValidationPlugins\Http\AzureWebAppHosting.cs" />
     <Compile Include="Plugins\ValidationPlugins\Http\IIS.cs" />
     <Compile Include="Plugins\ValidationPlugins\BaseTlsValidation.cs" />
     <Compile Include="Plugins\ValidationPlugins\Dns\Azure.cs" />
