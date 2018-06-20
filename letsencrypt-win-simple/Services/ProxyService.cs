@@ -43,6 +43,7 @@ namespace PKISharp.WACS.Services
                     if (useProxy)
                     {
                         _log.Warning("Proxying via {proxy}:{port}", proxyUrl.Host, proxyUrl.Port);
+                        proxy.Credentials = CredentialCache.DefaultNetworkCredentials;
                     }
                 }
                 _proxy = proxy;

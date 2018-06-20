@@ -27,11 +27,12 @@ namespace PKISharp.WACS.Clients
                     UseShellExecute = false,
                     CreateNoWindow = true
                 };
+                FillProcessStartInfo(PSI);
                 if (!string.IsNullOrWhiteSpace(parameterTemplate))
                 {
                     var parametersFormat = string.Format(parameterTemplate, parameters);
                     _log.Information(true, "Script {script} starting with parameters {parameters}", script, parametersFormat);
-                    PSI.Arguments = parametersFormat;
+                    FillProcessStartInfoArguments(PSI, parametersFormat);
                 }
                 else 
                 {
@@ -76,6 +77,15 @@ namespace PKISharp.WACS.Clients
             {
                 _log.Warning("No script configured.");
             }
+        }
+
+        protected virtual void FillProcessStartInfo(ProcessStartInfo pSI)
+        {
+        }
+
+        protected virtual void FillProcessStartInfoArguments(ProcessStartInfo pSI, string parametersFormat)
+        {
+            pSI.Arguments = parametersFormat;
         }
     }
 }

@@ -7,11 +7,9 @@ using System;
 
 namespace PKISharp.WACS.Plugins.InstallationPlugins
 {
-    internal class ScriptInstallerFactory : BaseInstallationPluginFactory<ScriptInstaller>
+    internal abstract class ScriptInstallerBaseFactory<T> : BaseInstallationPluginFactory<T> where T : IInstallationPlugin
     {
-        public const string PluginName = "Manual";
-        public ScriptInstallerFactory(ILogService log) : base(log, PluginName, "Run a custom script") { }
-
+        public ScriptInstallerBaseFactory(ILogService log, string name, string description) : base(log, name, description) { }
         public override void Aquire(ScheduledRenewal renewal, IOptionsService optionsService, IInputService inputService, RunLevel runLevel)
         {
             inputService.Show("Full instructions", "https://github.com/PKISharp/win-acme/wiki/Install-Script");
@@ -39,6 +37,11 @@ namespace PKISharp.WACS.Plugins.InstallationPlugins
             }
             renewal.ScriptParameters = optionsService.Options.ScriptParameters;
         }
+    }
+    internal class ScriptInstallerFactory : ScriptInstallerBaseFactory<ScriptInstaller>
+    {
+        public const string PluginName = "Manual";
+        public ScriptInstallerFactory(ILogService log) : base(log, PluginName, "Run a custom script") { }
     }
 
     internal class ScriptInstaller : ScriptClient, IInstallationPlugin

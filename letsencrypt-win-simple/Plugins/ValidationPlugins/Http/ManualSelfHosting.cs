@@ -11,15 +11,15 @@ namespace PKISharp.WACS.Plugins.ValidationPlugins.Http
 	/// <summary>
 	/// Self-host the validation files
 	/// </summary>
-	internal class AzureWebAppHostingFactory : BaseHttpValidationFactory<AzureWebAppHosting>
+	internal class ManualSelfHostingFactory : BaseHttpValidationFactory<ManualSelfHosting>
 	{
-		public AzureWebAppHostingFactory(ILogService log) : base(log, nameof(AzureWebAppHosting), "Azure WebApp hosting verification files") { }
+		public ManualSelfHostingFactory(ILogService log) : base(log, nameof(ManualSelfHosting), "Manual hosting verification files") { }
 		public override void Default(Target target, IOptionsService optionsService) { }
 		public override void Aquire(Target target, IOptionsService optionsService, IInputService inputService, RunLevel runLevel) { }
 	}
-	internal class AzureWebAppHosting : BaseHttpValidation
+	internal class ManualSelfHosting : BaseHttpValidation
 	{
-		public AzureWebAppHosting(ScheduledRenewal renewal, Target target, string identifier, ILogService log, IInputService input, ProxyService proxy) :
+		public ManualSelfHosting(ScheduledRenewal renewal, Target target, string identifier, ILogService log, IInputService input, ProxyService proxy) :
 			base(log, input, proxy, renewal, target, identifier)
 		{
 		}
@@ -41,12 +41,13 @@ namespace PKISharp.WACS.Plugins.ValidationPlugins.Http
 
 					And make it available on your web server at this URL:
 
-					http://clerks-staging.expaceo.com/.well-known/acme-challenge/9UYxFUabKg6w6HIwb2zLtytx4-5qVUCcutb2uUz0uBs
+					http://<YourDomainAndWebApp>/.well-known/acme-challenge/9UYxFUabKg6w6HIwb2zLtytx4-5qVUCcutb2uUz0uBs
 
 				 * */
 				var appSettingsKey = "acme-" + _challenge.Token;
 				var appSettingsValue = _challenge.FileContent;
-				this._input.Show("", _challenge.Token);
+                this._input.Show("Create a file containing just this data", "\r\n\r\n "+ appSettingsValue, true);
+                this._input.Show("And make it available on your web server at this URL", "\r\n\r\n" + _challenge.FileUrl, true);
 				this._input.Wait();
 			}
 		}
